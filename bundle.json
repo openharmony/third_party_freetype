@@ -1,0 +1,39 @@
+{
+    "name": "@ohos/freetype",
+    "version": "",
+    "description": "Third-party open-source software FreeType | 三方开源软件FreeType",
+    "homePage": "https://gitee.com/openharmony",
+    "license": "The FreeType Project",
+    "repository": "https://gitee.com/openharmony/third_party_freetype",
+    "domain": "os",
+    "language": "",
+    "publishAs": "code-segment",
+    "private": false,
+    "scripts": {},
+    "tags": [
+        "third_party"
+    ],
+    "keywords": [
+        "third-party",
+        "freetype"
+    ],
+    "envs": [],
+    "dirs": [],
+    "segment": {
+        "destPath": "third_party/freetype"
+    },
+    "component": {
+        "name": "thirdparty_freetype",
+        "subsystem": "",
+        "syscap": [],
+        "features": [],
+        "adapted_system_type": [],
+        "rom": "",
+        "ram": "",
+        "build": {
+            "sub_component": [],
+            "inner_kits": [],
+            "test": []
+        }
+    }
+}
