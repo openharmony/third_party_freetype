@@ -14,7 +14,10 @@ if (defined(ohos_lite)) {
   import("//build/ohos.gni")
 }
 config("freetype_config") {
-  defines = [ "FT2_BUILD_LIBRARY" ]
+  defines = [
+    "FT2_BUILD_LIBRARY",
+    "FT_CONFIG_OPTION_USE_PNG",
+  ]
   include_dirs = [ "include" ]
 }
 
@@ -60,6 +63,7 @@ freetype_sources = [
   "src\winfonts\winfnt.c",
 ]
 
+deps = [ "//third_party/libpng:libpng" ]
 if (defined(ohos_lite)) {
   lite_library("freetype") {
     if (ohos_kernel_type == "liteos_m") {
@@ -68,7 +72,11 @@ if (defined(ohos_lite)) {
       target_type = "shared_library"
     }
     sources = freetype_sources
-    include_dirs = [ "src\base" ]
+    include_dirs = [
+      "src\base",
+      "//third_party/libpng",
+    ]
+
     public_configs = [ ":freetype_config" ]
   }
 
