@@ -8,16 +8,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 if (defined(ohos_lite)) {
   import("//build/lite/config/component/lite_component.gni")
 } else {
   import("//build/ohos.gni")
 }
 config("freetype_config") {
-  defines = [
-    "FT2_BUILD_LIBRARY",
-    "FT_CONFIG_OPTION_USE_PNG",
-  ]
+  defines = [ "FT2_BUILD_LIBRARY" ]
   include_dirs = [ "include" ]
 }
 
@@ -63,7 +61,6 @@ freetype_sources = [
   "src\winfonts\winfnt.c",
 ]
 
-deps = [ "//third_party/libpng:libpng" ]
 if (defined(ohos_lite)) {
   lite_library("freetype") {
     if (ohos_kernel_type == "liteos_m") {
@@ -71,6 +68,7 @@ if (defined(ohos_lite)) {
     } else {
       target_type = "shared_library"
     }
+    deps = [ "//third_party/libpng:libpng" ]
     sources = freetype_sources
     include_dirs = [
       "src\base",
@@ -78,6 +76,7 @@ if (defined(ohos_lite)) {
     ]
 
     public_configs = [ ":freetype_config" ]
+    defines = [ "FT_CONFIG_OPTION_USE_PNG" ]
   }
 
   lite_component("freetype_shared") {
