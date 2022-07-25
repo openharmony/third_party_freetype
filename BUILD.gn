@@ -17,6 +17,13 @@ if (defined(ohos_lite)) {
 config("freetype_config") {
   defines = [ "FT2_BUILD_LIBRARY" ]
   include_dirs = [ "include" ]
+  if (board_toolchain_type == "iccarm") {
+    cflags = [
+      "--diag_suppress",
+      "Pa082,Pa084,Pa128,Pa134,Pa137,Pe550",
+    ]
+    cflags_cc = cflags
+  }
 }
 
 freetype_sources = [
