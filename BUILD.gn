@@ -75,6 +75,14 @@ if (defined(ohos_lite)) {
       "//third_party/libpng",
     ]
 
+    if (board_toolchain_type == "iccarm") {
+      cflags = [
+        "--diag_suppress",
+        "Pa082,Pa084,Pa128,Pa134,Pa137,Pe550",
+      ]
+      cflags_cc = cflags
+    }
+
     public_configs = [ ":freetype_config" ]
     defines = [ "FT_CONFIG_OPTION_USE_PNG" ]
   }
