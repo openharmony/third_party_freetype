@@ -78,7 +78,7 @@ if (defined(ohos_lite)) {
     if (board_toolchain_type == "iccarm") {
       cflags = [
         "--diag_suppress",
-        "Pa082,Pa084,Pa128,Pa134,Pa137,Pe550",
+        "Pa082,Pa084,Pa128,Pe128,Pa134,Pa137,Pe550",
       ]
       cflags_cc = cflags
     }
