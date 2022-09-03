@@ -359,13 +359,13 @@ FT_BEGIN_HEADER
 
 
   /* create a new (input) stream from an FT_Open_Args structure */
-  FT_BASE( FT_Error )
+  FT_EXPORT( FT_Error )
   FT_Stream_New( FT_Library           library,
                  const FT_Open_Args*  args,
                  FT_Stream           *astream );
 
   /* free a stream */
-  FT_BASE( void )
+  FT_EXPORT( void )
   FT_Stream_Free( FT_Stream  stream,
                   FT_Int     external );
 

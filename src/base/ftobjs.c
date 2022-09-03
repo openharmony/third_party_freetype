@@ -185,7 +185,7 @@
 
   /* create a new input stream from an FT_Open_Args structure */
   /*                                                          */
-  FT_BASE_DEF( FT_Error )
+  FT_EXPORT_DEF( FT_Error )
   FT_Stream_New( FT_Library           library,
                  const FT_Open_Args*  args,
                  FT_Stream           *astream )
@@ -253,7 +253,7 @@
   }
 
 
-  FT_BASE_DEF( void )
+  FT_EXPORT_DEF( void )
   FT_Stream_Free( FT_Stream  stream,
                   FT_Int     external )
   {
@@ -3275,7 +3275,7 @@
 
     if ( !face->size )
       return FT_THROW( Invalid_Size_Handle );
-	
+
     if ( !req || req->width < 0 || req->height < 0 ||
          req->type >= FT_SIZE_REQUEST_TYPE_MAX )
       return FT_THROW( Invalid_Argument );
