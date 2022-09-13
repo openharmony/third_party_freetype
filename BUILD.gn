@@ -75,7 +75,7 @@ if (defined(ohos_lite)) {
       "//third_party/libpng",
     ]
 
-    if (board_toolchain_type == "iccarm") {
+    if (defined(board_toolchain_type) && board_toolchain_type == "iccarm") {
       cflags = [
         "--diag_suppress",
         "Pa082,Pa084,Pa128,Pe128,Pa134,Pa137,Pe550",
