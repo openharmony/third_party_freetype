@@ -381,22 +381,22 @@ FT_BEGIN_HEADER
 
 
   /* seek within a stream. position is relative to start of stream */
-  FT_BASE( FT_Error )
+  FT_EXPORT( FT_Error )
   FT_Stream_Seek( FT_Stream  stream,
                   FT_ULong   pos );
 
   /* skip bytes in a stream */
-  FT_BASE( FT_Error )
+  FT_EXPORT( FT_Error )
   FT_Stream_Skip( FT_Stream  stream,
                   FT_Long    distance );
 
   /* return current stream position */
-  FT_BASE( FT_ULong )
+  FT_EXPORT( FT_ULong )
   FT_Stream_Pos( FT_Stream  stream );
 
   /* read bytes from a stream into a user-allocated buffer, returns an */
   /* error if not all bytes could be read.                             */
-  FT_BASE( FT_Error )
+  FT_EXPORT_DEF( FT_Error )
   FT_Stream_Read( FT_Stream  stream,
                   FT_Byte*   buffer,
                   FT_ULong   count );
@@ -487,7 +487,7 @@ FT_BEGIN_HEADER
                       FT_Error*  error );
 
   /* read a 16-bit big-endian unsigned integer from a stream */
-  FT_BASE( FT_UShort )
+  FT_EXPORT( FT_UShort )
   FT_Stream_ReadUShort( FT_Stream  stream,
                         FT_Error*  error );
 
@@ -497,12 +497,12 @@ FT_BEGIN_HEADER
                          FT_Error*  error );
 
   /* read a 32-bit big-endian integer from a stream */
-  FT_BASE( FT_ULong )
+  FT_EXPORT( FT_ULong )
   FT_Stream_ReadULong( FT_Stream  stream,
                        FT_Error*  error );
 
   /* read a 16-bit little-endian unsigned integer from a stream */
-  FT_BASE( FT_UShort )
+  FT_EXPORT( FT_UShort )
   FT_Stream_ReadUShortLE( FT_Stream  stream,
                           FT_Error*  error );
 
@@ -513,7 +513,7 @@ FT_BEGIN_HEADER
 
   /* Read a structure from a stream.  The structure must be described */
   /* by an array of FT_Frame_Field records.                           */
-  FT_BASE( FT_Error )
+  FT_EXPORT( FT_Error )
   FT_Stream_ReadFields( FT_Stream              stream,
                         const FT_Frame_Field*  fields,
                         void*                  structure );

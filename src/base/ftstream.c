@@ -52,7 +52,7 @@
   }
 
 
-  FT_BASE_DEF( FT_Error )
+  FT_EXPORT_DEF( FT_Error )
   FT_Stream_Seek( FT_Stream  stream,
                   FT_ULong   pos )
   {
@@ -87,7 +87,7 @@
   }
 
 
-  FT_BASE_DEF( FT_Error )
+  FT_EXPORT_DEF( FT_Error )
   FT_Stream_Skip( FT_Stream  stream,
                   FT_Long    distance )
   {
@@ -98,14 +98,14 @@
   }
 
 
-  FT_BASE_DEF( FT_ULong )
+  FT_EXPORT_DEF( FT_ULong )
   FT_Stream_Pos( FT_Stream  stream )
   {
     return stream->pos;
   }
 
 
-  FT_BASE_DEF( FT_Error )
+  FT_EXPORT_DEF( FT_Error )
   FT_Stream_Read( FT_Stream  stream,
                   FT_Byte*   buffer,
                   FT_ULong   count )
@@ -492,7 +492,7 @@
   }
 
 
-  FT_BASE_DEF( FT_UShort )
+  FT_EXPORT_DEF( FT_UShort )
   FT_Stream_ReadUShort( FT_Stream  stream,
                         FT_Error*  error )
   {
@@ -537,7 +537,7 @@
   }
 
 
-  FT_BASE_DEF( FT_UShort )
+  FT_EXPORT_DEF( FT_UShort )
   FT_Stream_ReadUShortLE( FT_Stream  stream,
                           FT_Error*  error )
   {
@@ -627,7 +627,7 @@
   }
 
 
-  FT_BASE_DEF( FT_ULong )
+  FT_EXPORT_DEF( FT_ULong )
   FT_Stream_ReadULong( FT_Stream  stream,
                        FT_Error*  error )
   {
@@ -717,7 +717,7 @@
   }
 
 
-  FT_BASE_DEF( FT_Error )
+  FT_EXPORT_DEF( FT_Error )
   FT_Stream_ReadFields( FT_Stream              stream,
                         const FT_Frame_Field*  fields,
                         void*                  structure )
