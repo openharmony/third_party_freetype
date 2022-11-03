@@ -396,7 +396,7 @@ FT_BEGIN_HEADER
 
   /* read bytes from a stream into a user-allocated buffer, returns an */
   /* error if not all bytes could be read.                             */
-  FT_EXPORT_DEF( FT_Error )
+  FT_EXPORT( FT_Error )
   FT_Stream_Read( FT_Stream  stream,
                   FT_Byte*   buffer,
                   FT_ULong   count );
