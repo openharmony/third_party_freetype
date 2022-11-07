@@ -101,7 +101,7 @@
 
   /* reset glyph loader, free all allocated tables, */
   /* and start from zero                            */
-  FT_BASE_DEF( void )
+  FT_EXPORT_DEF( void )
   FT_GlyphLoader_Reset( FT_GlyphLoader  loader )
   {
     FT_Memory  memory = loader->memory;

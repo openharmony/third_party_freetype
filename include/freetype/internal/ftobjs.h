@@ -695,7 +695,7 @@ FT_BEGIN_HEADER
 
   /* Free the bitmap of a given glyphslot when needed (i.e., only when it */
   /* was allocated with ft_glyphslot_alloc_bitmap).                       */
-  FT_BASE( void )
+  FT_EXPORT( void )
   ft_glyphslot_free_bitmap( FT_GlyphSlot  slot );
 
 
