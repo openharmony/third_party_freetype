@@ -106,5 +106,7 @@ if (defined(ohos_lite)) {
     sources = freetype_sources
     include_dirs = [ "src\base" ]
     public_configs = [ ":freetype_config" ]
+    deps = [ "//third_party/zlib:libz" ]
+    defines = [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
   }
 }
