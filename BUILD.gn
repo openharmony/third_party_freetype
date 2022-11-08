@@ -53,8 +53,13 @@ freetype_sources = [
   "src\pshinter\pshinter.c",
   "src\psnames\psmodule.c",
   "src\raster\raster.c",
+  "src\sdf\ftbsdf.c",
+  "src\sdf\ftsdf.c",
+  "src\sdf\ftsdfcommon.c",
+  "src\sdf\ftsdfrend.c",
   "src\sfnt\sfnt.c",
   "src\smooth\smooth.c",
+  "src\svg\ftsvg.c",
   "src\truetype\truetype.c",
   "src\type1\type1.c",
   "src\type42\type42.c",
@@ -68,12 +73,21 @@ if (defined(ohos_lite)) {
     } else {
       target_type = "shared_library"
     }
+
     deps = [ "//third_party/libpng:libpng" ]
     sources = freetype_sources
     include_dirs = [
-      "src\base",
+      "src/base",
       "//third_party/libpng",
     ]
+
+    public_configs = [ ":freetype_config" ]
+    defines = [ "FT_CONFIG_OPTION_USE_PNG" ]
+
+    if (target_type == "static_library") {
+      deps += [ "//build/lite/config/component/zlib:zlib_static" ]
+      defines += [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
+    }
 
     if (defined(board_toolchain_type) && board_toolchain_type == "iccarm") {
       cflags = [
@@ -82,9 +96,6 @@ if (defined(ohos_lite)) {
       ]
       cflags_cc = cflags
     }
-
-    public_configs = [ ":freetype_config" ]
-    defines = [ "FT_CONFIG_OPTION_USE_PNG" ]
   }
 
   lite_component("freetype_shared") {

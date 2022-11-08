@@ -63,10 +63,13 @@ Note:If the text contains special characters, please escape them according to th
                 <policyitem type="compatibility" name="The FreeType Project LICENSE" path=".*" desc="The FreeType Project LICENSE"/>
                 <policyitem type="compatibility" name="GPLStyleLicense" path="builds/unix/config.guess" desc="config file,, not license declare"/>
                 <policyitem type="compatibility" name="GPLStyleLicense" path="builds/unix/config.sub" desc="config file,, not license declare"/>
-                <policyitem type="compatibility" name="GPLStyleLicense" path="docs/LICENSE.TXT" desc="Freetype provide FTL and GPLv2 license, you can choose one of them."/>
+                <policyitem type="compatibility" name="GPL-3.0-or-later" path="builds/unix/ax_pthread.m4" desc="config file,, not license declare"/>
+                <policyitem type="compatibility" name="GPLStyleLicense" path="LICENSE.TXT" desc="Freetype provide FTL and GPLv2 license, you can choose one of them."/>
                 <policyitem type="compatibility" name="LGPLStyleLicense" path="docs/GPLv2.TXT" desc="Freetype provide FTL and GPLv2 license, you can choose one of them."/>
-                <policyitem type="compatibility" name="zlib/libpng License" path="src/gzip/.*" desc="Zlib used by FreeType."/>
+                <policyitem type="compatibility" name="zlib/libpng License" path="src/gzip/.*" desc="Zlib used by FreeType." filefilter="defaultFilter"/>
                 <policyitem type="compatibility" name="zlib-acknowledgement" path="src/gzip/zlib.h" desc="Zlib used by FreeType."/>
+                <policyitem type="compatibility" name="BSL-1.0" path="include/dlg/.*" desc="Freetype provide BSL license."/>
+                <policyitem type="compatibility" name="BSL-1.0" path="src/dlg/dlg.c" desc="Freetype provide BSL license."/>
             </policy>
         </policylist>
         <filefilterlist>
@@ -77,7 +80,8 @@ Note:If the text contains special characters, please escape them according to th
                 <filteritem type="fillname" name="ChangeLog.*" desc="This is chenglog file, no need license"/>
                 <filteritem type="filepath" name="src/base/md5.h" desc="This file is free software"/>
                 <filteritem type="filepath" name="src/pcf/pcfutil.c" desc="This file is free software"/>
-                <filteritem type="filepath" name="builds/unix/pkg.m4" desc="pkg-config file"/>
+                <filteritem type="filepath" name="builds/unix/*.m4" desc="pkg-config file"/>
+                <filteritem type="filepath" name="src/gzip/README.freetype" desc="This is description file, no need license"/>
             </filefilter>
             <filefilter name="binaryFileTypePolicyFilter" desc="Filters for binary file policies">
                 <filteritem type="filepath" name="docs/reference/site/assets/fonts/specimen/.*.ttf|.*.woff|.*.woff2" desc="freetype file, not to check"/>
@@ -94,19 +98,14 @@ Note:If the text contains special characters, please escape them according to th
         </filefilterlist>
         <licensematcherlist>
             <licensematcher name="zlib/libpng License" desc="zlib/png license">
-                <licensetext name="                  
-                     * Copyright (C) 1995-2002 Mark Adler
-                     * For conditions of distribution and use, see copyright notice in zlib.h
-                 " desc=""/>
                 <licensetext name="
-                     * Copyright (C) 1995-2002 Jean-loup Gailly.
                      * For conditions of distribution and use, see copyright notice in zlib.h
                  " desc=""/>
                  <licensetext name="
                       zlib.h -- interface of the 'zlib' general purpose compression library
-                      version 1.1.4, March 11th, 2002
+                      version 1.2.12, March 11th, 2022
 
-                      Copyright (C) 1995-2002 Jean-loup Gailly and Mark Adler
+                      Copyright (C) 1995-2022 Jean-loup Gailly and Mark Adler
 
                       This software is provided 'as-is', without any express or implied
                       warranty.  In no event will the authors be held liable for any damages
