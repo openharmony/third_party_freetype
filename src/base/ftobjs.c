@@ -321,7 +321,7 @@
   }
 
 
-  FT_BASE_DEF( void )
+  FT_EXPORT_DEF( void )
   ft_glyphslot_free_bitmap( FT_GlyphSlot  slot )
   {
     if ( slot->internal && ( slot->internal->flags & FT_GLYPH_OWN_BITMAP ) )

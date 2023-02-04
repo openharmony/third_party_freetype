@@ -87,7 +87,7 @@ FT_BEGIN_HEADER
   FT_GlyphLoader_Done( FT_GlyphLoader  loader );
 
   /* reset a glyph loader (frees everything int it) */
-  FT_BASE( void )
+  FT_EXPORT( void )
   FT_GlyphLoader_Reset( FT_GlyphLoader  loader );
 
   /* rewind a glyph loader */
