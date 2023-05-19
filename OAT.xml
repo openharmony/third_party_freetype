@@ -64,6 +64,7 @@ Note:If the text contains special characters, please escape them according to th
                 <policyitem type="compatibility" name="GPLStyleLicense" path="builds/unix/config.guess" desc="config file,, not license declare"/>
                 <policyitem type="compatibility" name="GPLStyleLicense" path="builds/unix/config.sub" desc="config file,, not license declare"/>
                 <policyitem type="compatibility" name="GPL-3.0-or-later" path="builds/unix/ax_pthread.m4" desc="config file,, not license declare"/>
+                <policyitem type="compatibility" name="GPL-2.0" path="builds/unix/pkg.m4" desc="config file,, not license declare"/>
                 <policyitem type="compatibility" name="GPLStyleLicense" path="LICENSE.TXT" desc="Freetype provide FTL and GPLv2 license, you can choose one of them."/>
                 <policyitem type="compatibility" name="LGPLStyleLicense" path="docs/GPLv2.TXT" desc="Freetype provide FTL and GPLv2 license, you can choose one of them."/>
                 <policyitem type="compatibility" name="zlib/libpng License" path="src/gzip/.*" desc="Zlib used by FreeType." filefilter="defaultFilter"/>
