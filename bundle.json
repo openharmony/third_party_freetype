@@ -14,16 +14,19 @@
         "en": "docs/README"
     },
     "component": {
-        "name": "thirdparty_freetype",
-        "subsystem": "",
+        "name": "freetype",
+        "subsystem": "thirdparty",
         "syscap": [],
         "features": [],
-        "adapted_system_type": [],
+        "adapted_system_type": [ "mini","small" ],
         "rom": "",
         "ram": "",
         "deps": {
             "components": [],
-            "third_party": []
+            "third_party": [
+                "libpng",
+                "zlib"
+            ]
         },
         "build": {
             "sub_component": [],
