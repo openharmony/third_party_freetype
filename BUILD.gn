@@ -108,5 +108,7 @@ if (defined(ohos_lite)) {
     public_configs = [ ":freetype_config" ]
     deps = [ "//third_party/zlib:libz" ]
     defines = [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
+    part_name = "freetype"
+    subsystem_name = "thirdparty"
   }
 }
