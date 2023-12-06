@@ -16,55 +16,68 @@ if (defined(ohos_lite)) {
 }
 config("freetype_config") {
   defines = [ "FT2_BUILD_LIBRARY" ]
-  include_dirs = [ "include" ]
+  include_dirs = [ "${target_gen_dir}/freetype/include" ]
 }
 
-freetype_sources = [
-  "src\autofit\autofit.c",
-  "src\base\ftbase.c",
-  "src\base\ftbbox.c",
-  "src\base\ftbdf.c",
-  "src\base\ftbitmap.c",
-  "src\base\ftcid.c",
-  "src\base\ftdebug.c",
-  "src\base\ftfstype.c",
-  "src\base\ftgasp.c",
-  "src\base\ftglyph.c",
-  "src\base\ftgxval.c",
-  "src\base\ftinit.c",
-  "src\base\ftmm.c",
-  "src\base\ftotval.c",
-  "src\base\ftpatent.c",
-  "src\base\ftpfr.c",
-  "src\base\ftstroke.c",
-  "src\base\ftsynth.c",
-  "src\base\ftsystem.c",
-  "src\base\fttype1.c",
-  "src\base\ftwinfnt.c",
-  "src\bdf\bdf.c",
-  "src\cache\ftcache.c",
-  "src\cff\cff.c",
-  "src\cid\type1cid.c",
-  "src\gzip\ftgzip.c",
-  "src\lzw\ftlzw.c",
-  "src\pcf\pcf.c",
-  "src\pfr\pfr.c",
-  "src\psaux\psaux.c",
-  "src\pshinter\pshinter.c",
-  "src\psnames\psmodule.c",
-  "src\raster\raster.c",
-  "src\sdf\ftbsdf.c",
-  "src\sdf\ftsdf.c",
-  "src\sdf\ftsdfcommon.c",
-  "src\sdf\ftsdfrend.c",
-  "src\sfnt\sfnt.c",
-  "src\smooth\smooth.c",
-  "src\svg\ftsvg.c",
-  "src\truetype\truetype.c",
-  "src\type1\type1.c",
-  "src\type42\type42.c",
-  "src\winfonts\winfnt.c",
-]
+action("freetype_action") {
+  script = "//third_party/freetype/install.py"
+  outputs = [
+    "${target_gen_dir}/freetype/src/autofit/autofit.c",
+    "${target_gen_dir}/freetype/src/base/ftbase.c",
+    "${target_gen_dir}/freetype/src/base/ftbbox.c",
+    "${target_gen_dir}/freetype/src/base/ftbdf.c",
+    "${target_gen_dir}/freetype/src/base/ftbitmap.c",
+    "${target_gen_dir}/freetype/src/base/ftcid.c",
+    "${target_gen_dir}/freetype/src/base/ftdebug.c",
+    "${target_gen_dir}/freetype/src/base/ftfstype.c",
+    "${target_gen_dir}/freetype/src/base/ftgasp.c",
+    "${target_gen_dir}/freetype/src/base/ftglyph.c",
+    "${target_gen_dir}/freetype/src/base/ftgxval.c",
+    "${target_gen_dir}/freetype/src/base/ftinit.c",
+    "${target_gen_dir}/freetype/src/base/ftmm.c",
+    "${target_gen_dir}/freetype/src/base/ftotval.c",
+    "${target_gen_dir}/freetype/src/base/ftpatent.c",
+    "${target_gen_dir}/freetype/src/base/ftpfr.c",
+    "${target_gen_dir}/freetype/src/base/ftstroke.c",
+    "${target_gen_dir}/freetype/src/base/ftsynth.c",
+    "${target_gen_dir}/freetype/src/base/ftsystem.c",
+    "${target_gen_dir}/freetype/src/base/fttype1.c",
+    "${target_gen_dir}/freetype/src/base/ftwinfnt.c",
+    "${target_gen_dir}/freetype/src/bdf/bdf.c",
+    "${target_gen_dir}/freetype/src/cache/ftcache.c",
+    "${target_gen_dir}/freetype/src/cff/cff.c",
+    "${target_gen_dir}/freetype/src/cid/type1cid.c",
+    "${target_gen_dir}/freetype/src/gzip/ftgzip.c",
+    "${target_gen_dir}/freetype/src/lzw/ftlzw.c",
+    "${target_gen_dir}/freetype/src/pcf/pcf.c",
+    "${target_gen_dir}/freetype/src/pfr/pfr.c",
+    "${target_gen_dir}/freetype/src/psaux/psaux.c",
+    "${target_gen_dir}/freetype/src/pshinter/pshinter.c",
+    "${target_gen_dir}/freetype/src/psnames/psmodule.c",
+    "${target_gen_dir}/freetype/src/raster/raster.c",
+    "${target_gen_dir}/freetype/src/sdf/ftbsdf.c",
+    "${target_gen_dir}/freetype/src/sdf/ftsdf.c",
+    "${target_gen_dir}/freetype/src/sdf/ftsdfcommon.c",
+    "${target_gen_dir}/freetype/src/sdf/ftsdfrend.c",
+    "${target_gen_dir}/freetype/src/sfnt/sfnt.c",
+    "${target_gen_dir}/freetype/src/smooth/smooth.c",
+    "${target_gen_dir}/freetype/src/svg/ftsvg.c",
+    "${target_gen_dir}/freetype/src/truetype/truetype.c",
+    "${target_gen_dir}/freetype/src/type1/type1.c",
+    "${target_gen_dir}/freetype/src/type42/type42.c",
+    "${target_gen_dir}/freetype/src/winfonts/winfnt.c",
+  ]
+
+  inputs = [ "//third_party/freetype/freetype-2.12.1.tar.xz" ]
+  freetype_path = rebase_path("${target_gen_dir}", root_build_dir)
+  freetype_source_path = rebase_path("//third_party/freetype", root_build_dir)
+  args = [
+    "--gen-dir",
+    "$freetype_path",
+    "--source-dir",
+    "$freetype_source_path",
+  ]
+}
 
 if (defined(ohos_lite)) {
   lite_library("freetype") {
@@ -74,10 +87,12 @@ if (defined(ohos_lite)) {
       target_type = "shared_library"
     }
 
+    freetype_sources = get_target_outputs(":freetype_action")
+
     deps = [ "//third_party/libpng:libpng" ]
     sources = freetype_sources
     include_dirs = [
-      "src/base",
+      "${target_gen_dir}/freetype/src/base",
       "//third_party/libpng",
     ]
 
@@ -88,7 +103,7 @@ if (defined(ohos_lite)) {
       deps += [ "//build/lite/config/component/zlib:zlib_static" ]
       defines += [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
     }
-
+    deps += [ ":freetype_action" ]
     if (defined(board_toolchain_type) && board_toolchain_type == "iccarm") {
       cflags = [
         "--diag_suppress",
@@ -103,10 +118,13 @@ if (defined(ohos_lite)) {
   }
 } else {
   ohos_static_library("freetype_static") {
-    sources = freetype_sources
-    include_dirs = [ "src\base" ]
+    sources = get_target_outputs(":freetype_action")
+    include_dirs = [ "${target_gen_dir}/freetype/src/base" ]
     public_configs = [ ":freetype_config" ]
-    deps = [ "//third_party/zlib:libz" ]
+    deps = [
+      ":freetype_action",
+      "//third_party/zlib:libz",
+    ]
     defines = [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
     part_name = "freetype"
     subsystem_name = "thirdparty"
