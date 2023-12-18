@@ -125,7 +125,11 @@ if (defined(ohos_lite)) {
       ":freetype_action",
       "//third_party/zlib:libz",
     ]
-    defines = [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
+    external_deps = [ "libpng:libpng" ]
+    defines = [
+      "FT_CONFIG_OPTION_SYSTEM_ZLIB",
+      "FT_CONFIG_OPTION_USE_PNG",
+    ]
     part_name = "freetype"
     subsystem_name = "thirdparty"
   }

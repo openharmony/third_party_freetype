@@ -22,9 +22,10 @@
         "rom": "",
         "ram": "",
         "deps": {
-            "components": [],
+            "components": [
+                "libpng"
+            ],
             "third_party": [
-                "libpng",
                 "zlib"
             ]
         },
