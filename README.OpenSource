@@ -2,10 +2,10 @@
     {
         "Name"                  : "freetype",
         "License"               : "The FreeType Project License",
-        "License File"          : "docs/LICENSE.TXT",
-        "Version Number"        : "2.12.1",
+        "License File"          : "LICENSE.TXT",
+        "Version Number"        : "2.12.1-1.oe2203sp1",
         "Owner"                 : "ouyangyueling@huawei.com",
-        "Upstream URL"          : "https://download.savannah.gnu.org/releases/freetype/",
+        "Upstream URL"          : "https://repo.openeuler.org/openEuler-22.03-LTS-SP1/source/Packages/freetype-2.12.1-1.oe2203sp1.src.rpm",
         "Description"           : "FreeType is a freely available software library to render fonts."
     }
 ]
