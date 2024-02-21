@@ -31,7 +31,17 @@
         },
         "build": {
             "sub_component": [],
-            "inner_kits": [],
+            "inner_kits": [
+                {
+                    "name": "//third_party/freetype:freetype_static",
+                    "header": {
+                      "header_files": [
+                        "ftconfig.h"
+                      ],
+                      "header_base": "//third_party/freetype"
+                    }
+                }
+            ],
             "test": []
         }
     }
