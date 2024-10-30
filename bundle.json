@@ -23,10 +23,10 @@
         "ram": "",
         "deps": {
             "components": [
-                "libpng"
+                "libpng",
+                "zlib"
             ],
             "third_party": [
-                "zlib"
             ]
         },
         "build": {
