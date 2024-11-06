@@ -1,6 +1,6 @@
 [
     {
-        "Name"                  : "freetype",
+        "Name"                  : "openEuler:freetype",
         "License"               : "The FreeType Project License",
         "License File"          : "LICENSE.TXT",
         "Version Number"        : "2.12.1-3.oe2203sp3",
