@@ -40,6 +40,7 @@ def move_file(src_path, dst_path):
         "backport-freetype-2.10.0-internal-outline.patch",
         "backport-freetype-2.10.1-debughook.patch",
         "backport-freetype-2.12.1-enable-funcs.patch",
+        "backport-CVE-2025-27363.patch",
         "ftconfig.h"
     ]
     for file in files:
@@ -76,7 +77,8 @@ def do_patch(target_dir):
         "backport-freetype-2.8-multilib.patch",
         "backport-freetype-2.10.0-internal-outline.patch",
         "backport-freetype-2.10.1-debughook.patch",
-        "backport-freetype-2.12.1-enable-funcs.patch"
+        "backport-freetype-2.12.1-enable-funcs.patch",
+        "backport-CVE-2025-27363.patch"
     ]
 
     for patch in patch_file:
