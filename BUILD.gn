@@ -121,11 +121,13 @@ if (defined(ohos_lite)) {
     sources = get_target_outputs(":freetype_action")
     include_dirs = [ "${target_gen_dir}/freetype/src/base" ]
     public_configs = [ ":freetype_config" ]
-    deps = [ ":freetype_action" ]
-    external_deps = [ "zlib:libz" ]
+    deps = [
+      ":freetype_action",
+      "//third_party/zlib:libz",
+    ]
     defines = [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
     if (current_os == "ohos") {
-      external_deps += [ "libpng:libpng" ]
+      external_deps = [ "libpng:libpng" ]
       defines += [ "FT_CONFIG_OPTION_USE_PNG" ]
     }
     part_name = "freetype"
