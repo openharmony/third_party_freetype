@@ -68,7 +68,7 @@ action("freetype_action") {
     "${target_gen_dir}/freetype/src/winfonts/winfnt.c",
   ]
 
-  inputs = [ "//third_party/freetype/freetype-2.12.1.tar.xz" ]
+  inputs = [ "//third_party/freetype/freetype-2.13.3.tar.xz" ]
   freetype_path = rebase_path("${target_gen_dir}", root_build_dir)
   freetype_source_path = rebase_path("//third_party/freetype", root_build_dir)
   args = [
