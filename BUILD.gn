@@ -69,6 +69,17 @@ action("freetype_action") {
   ]
 
   inputs = [ "//third_party/freetype/freetype-2.12.1.tar.xz" ]
+  inputs += [
+    "backport-CVE-2023-2004.patch",
+    "backport-freetype-2.10.0-internal-outline.patch",
+    "backport-freetype-2.10.1-debughook.patch",
+    "backport-freetype-2.12.1-enable-funcs.patch",
+    "backport-freetype-2.2.1-enable-valid.patch",
+    "backport-freetype-2.3.0-enable-spr.patch",
+    "backport-freetype-2.6.5-libtool.patch",
+    "backport-freetype-2.8-multilib.patch",
+    "backport-Minimal-stop-gap-fix-for-CVE-2025-27363.patch",
+  ]
   freetype_path = rebase_path("${target_gen_dir}", root_build_dir)
   freetype_source_path = rebase_path("//third_party/freetype", root_build_dir)
   args = [
