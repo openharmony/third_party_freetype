@@ -1,11 +1,11 @@
 [
     {
-        "Name"                  : "openEuler:freetype",
+        "Name"                  : "freetype",
         "License"               : "The FreeType Project License",
         "License File"          : "LICENSE.TXT",
-        "Version Number"        : "2.12.1-3.oe2203sp3",
-        "Owner"                 : "ouyangyueling@huawei.com",
-        "Upstream URL"          : "https://repo.openeuler.org/openEuler-22.03-LTS-SP3/source/Packages/freetype-2.12.1-3.oe2203sp3.src.rpm",
+        "Version Number"        : "2.13.3",
+        "Owner"                 : "zhangyifan39@huawei.com",
+        "Upstream URL"          : "https://gitlab.freedesktop.org/freetype",
         "Description"           : "FreeType is a freely available software library to render fonts."
     }
 ]

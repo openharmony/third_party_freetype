@@ -32,7 +32,6 @@ def untar_file(tar_file_path, extract_path):
 
 def move_file(src_path, dst_path):
     files = [
-        "backport-CVE-2023-2004.patch",
         "backport-freetype-2.2.1-enable-valid.patch",
         "backport-freetype-2.3.0-enable-spr.patch",
         "backport-freetype-2.6.5-libtool.patch",
@@ -40,7 +39,6 @@ def move_file(src_path, dst_path):
         "backport-freetype-2.10.0-internal-outline.patch",
         "backport-freetype-2.10.1-debughook.patch",
         "backport-freetype-2.12.1-enable-funcs.patch",
-        "backport-Minimal-stop-gap-fix-for-CVE-2025-27363.patch",
         "ftconfig.h"
     ]
     for file in files:
@@ -70,15 +68,13 @@ def apply_patch(patch_file, target_dir):
 
 def do_patch(target_dir):
     patch_file = [
-        "backport-CVE-2023-2004.patch",
         "backport-freetype-2.2.1-enable-valid.patch",
         "backport-freetype-2.3.0-enable-spr.patch",
         "backport-freetype-2.6.5-libtool.patch",
         "backport-freetype-2.8-multilib.patch",
         "backport-freetype-2.10.0-internal-outline.patch",
         "backport-freetype-2.10.1-debughook.patch",
-        "backport-freetype-2.12.1-enable-funcs.patch",
-        "backport-Minimal-stop-gap-fix-for-CVE-2025-27363.patch"
+        "backport-freetype-2.12.1-enable-funcs.patch"
     ]
 
     for patch in patch_file:
@@ -90,7 +86,7 @@ def main():
     freetype_path.add_argument('--gen-dir', help='generate path of log', required=True)
     freetype_path.add_argument('--source-dir', help='generate path of log', required=True)
     args = freetype_path.parse_args()
-    tar_file_path = os.path.join(args.source_dir, "freetype-2.12.1.tar.xz")
+    tar_file_path = os.path.join(args.source_dir, "freetype-2.13.3.tar.xz")
     target_dir = os.path.join(args.gen_dir, "freetype")
     target_include_dir = os.path.join(target_dir, "include")
 

@@ -1,5 +1,19 @@
-diff --git a/freetype-2.12.1/include/freetype/internal/ftgloadr.h b/freetype-2.12.1/include/freetype/internal/ftgloadr.h
-index f73b663..d2f9a77 100644
+From 2651de697594c01efd6701045ca4f780437411c8 Mon Sep 17 00:00:00 2001
+From: Zacoh <kouzhenrong@h-partners.com>
+Date: Thu, 15 May 2025 10:21:38 +0800
+Subject: [PATCH] freetype update version 2.13.3
+
+---
+ include/freetype/internal/ftgloadr.h |  2 +-
+ include/freetype/internal/ftobjs.h   |  2 +-
+ include/freetype/internal/ftstream.h | 20 ++++++++++----------
+ src/base/ftgloadr.c                  |  2 +-
+ src/base/ftobjs.c                    |  6 +++---
+ src/base/ftstream.c                  | 16 ++++++++--------
+ 6 files changed, 24 insertions(+), 24 deletions(-)
+
+diff --git a/include/freetype/internal/ftgloadr.h b/include/freetype/internal/ftgloadr.h
+index f1c155b..b32eb6b 100644
 --- a/include/freetype/internal/ftgloadr.h
 +++ b/include/freetype/internal/ftgloadr.h
 @@ -88,7 +88,7 @@ FT_BEGIN_HEADER
@@ -11,11 +25,11 @@ index f73b663..d2f9a77 100644
    FT_GlyphLoader_Reset( FT_GlyphLoader  loader );
  
    /* rewind a glyph loader */
-diff --git a/freetype-2.12.1/include/freetype/internal/ftobjs.h b/freetype-2.12.1/include/freetype/internal/ftobjs.h
-index 1c779ce..70942a7 100644
+diff --git a/include/freetype/internal/ftobjs.h b/include/freetype/internal/ftobjs.h
+index a1e9329..2ef3c29 100644
 --- a/include/freetype/internal/ftobjs.h
 +++ b/include/freetype/internal/ftobjs.h
-@@ -696,7 +696,7 @@ FT_BEGIN_HEADER
+@@ -690,7 +690,7 @@ FT_BEGIN_HEADER
  
    /* Free the bitmap of a given glyphslot when needed (i.e., only when it */
    /* was allocated with ft_glyphslot_alloc_bitmap).                       */
@@ -24,8 +38,8 @@ index 1c779ce..70942a7 100644
    ft_glyphslot_free_bitmap( FT_GlyphSlot  slot );
  
  
-diff --git a/freetype-2.12.1/include/freetype/internal/ftstream.h b/freetype-2.12.1/include/freetype/internal/ftstream.h
-index aa51fe5..f8760f4 100644
+diff --git a/include/freetype/internal/ftstream.h b/include/freetype/internal/ftstream.h
+index fd52f76..d2bc268 100644
 --- a/include/freetype/internal/ftstream.h
 +++ b/include/freetype/internal/ftstream.h
 @@ -357,13 +357,13 @@ FT_BEGIN_HEADER
@@ -75,8 +89,8 @@ index aa51fe5..f8760f4 100644
                        FT_Error*  error );
  
    /* read a 16-bit big-endian unsigned integer from a stream */
--  FT_BASE( FT_UShort )
-+  FT_EXPORT( FT_UShort )
+-  FT_BASE( FT_UInt16 )
++  FT_EXPORT( FT_UInt16 )
    FT_Stream_ReadUShort( FT_Stream  stream,
                          FT_Error*  error );
  
@@ -84,14 +98,14 @@ index aa51fe5..f8760f4 100644
                           FT_Error*  error );
  
    /* read a 32-bit big-endian integer from a stream */
--  FT_BASE( FT_ULong )
-+  FT_EXPORT( FT_ULong )
+-  FT_BASE( FT_UInt32 )
++  FT_EXPORT( FT_UInt32 )
    FT_Stream_ReadULong( FT_Stream  stream,
                         FT_Error*  error );
  
    /* read a 16-bit little-endian unsigned integer from a stream */
--  FT_BASE( FT_UShort )
-+  FT_EXPORT( FT_UShort )
+-  FT_BASE( FT_UInt16 )
++  FT_EXPORT( FT_UInt16 )
    FT_Stream_ReadUShortLE( FT_Stream  stream,
                            FT_Error*  error );
  
@@ -104,8 +118,8 @@ index aa51fe5..f8760f4 100644
    FT_Stream_ReadFields( FT_Stream              stream,
                          const FT_Frame_Field*  fields,
                          void*                  structure );
-diff --git a/freetype-2.12.1/src/base/ftgloadr.c b/freetype-2.12.1/src/base/ftgloadr.c
-index f05abde..1d99710 100644
+diff --git a/src/base/ftgloadr.c b/src/base/ftgloadr.c
+index 484d98f..c874dfa 100644
 --- a/src/base/ftgloadr.c
 +++ b/src/base/ftgloadr.c
 @@ -101,7 +101,7 @@
@@ -117,8 +131,8 @@ index f05abde..1d99710 100644
    FT_GlyphLoader_Reset( FT_GlyphLoader  loader )
    {
      FT_Memory  memory = loader->memory;
-diff --git a/freetype-2.12.1/src/base/ftobjs.c b/freetype-2.12.1/src/base/ftobjs.c
-index eeda69c..0d925f7 100644
+diff --git a/src/base/ftobjs.c b/src/base/ftobjs.c
+index 9b97820..ae2b21d 100644
 --- a/src/base/ftobjs.c
 +++ b/src/base/ftobjs.c
 @@ -191,7 +191,7 @@
@@ -148,8 +162,8 @@ index eeda69c..0d925f7 100644
    ft_glyphslot_free_bitmap( FT_GlyphSlot  slot )
    {
      if ( slot->internal && ( slot->internal->flags & FT_GLYPH_OWN_BITMAP ) )
-diff --git a/freetype-2.12.1/src/base/ftstream.c b/freetype-2.12.1/src/base/ftstream.c
-index cc92656..77a6283 100644
+diff --git a/src/base/ftstream.c b/src/base/ftstream.c
+index 6672224..b7ae179 100644
 --- a/src/base/ftstream.c
 +++ b/src/base/ftstream.c
 @@ -52,7 +52,7 @@
@@ -187,34 +201,34 @@ index cc92656..77a6283 100644
    FT_Stream_Read( FT_Stream  stream,
                    FT_Byte*   buffer,
                    FT_ULong   count )
-@@ -493,7 +493,7 @@
+@@ -497,7 +497,7 @@
    }
  
  
--  FT_BASE_DEF( FT_UShort )
-+  FT_EXPORT_DEF( FT_UShort )
+-  FT_BASE_DEF( FT_UInt16 )
++  FT_EXPORT_DEF( FT_UInt16 )
    FT_Stream_ReadUShort( FT_Stream  stream,
                          FT_Error*  error )
    {
-@@ -538,7 +538,7 @@
+@@ -542,7 +542,7 @@
    }
  
  
--  FT_BASE_DEF( FT_UShort )
-+  FT_EXPORT_DEF( FT_UShort )
+-  FT_BASE_DEF( FT_UInt16 )
++  FT_EXPORT_DEF( FT_UInt16 )
    FT_Stream_ReadUShortLE( FT_Stream  stream,
                            FT_Error*  error )
    {
-@@ -628,7 +628,7 @@
+@@ -632,7 +632,7 @@
    }
  
  
--  FT_BASE_DEF( FT_ULong )
-+  FT_EXPORT_DEF( FT_ULong )
+-  FT_BASE_DEF( FT_UInt32 )
++  FT_EXPORT_DEF( FT_UInt32 )
    FT_Stream_ReadULong( FT_Stream  stream,
                         FT_Error*  error )
    {
-@@ -718,7 +718,7 @@
+@@ -722,7 +722,7 @@
    }
  
  
@@ -223,33 +237,6 @@ index cc92656..77a6283 100644
    FT_Stream_ReadFields( FT_Stream              stream,
                          const FT_Frame_Field*  fields,
                          void*                  structure )
-diff --git a/freetype-2.12.1/src/gzip/inflate.c b/freetype-2.12.1/src/gzip/inflate.c
-index 5bf5b81..51399cd 100644
---- a/src/gzip/inflate.c
-+++ b/src/gzip/inflate.c
-@@ -769,9 +769,10 @@ int ZEXPORT inflate(
-                 copy = state->length;
-                 if (copy > have) copy = have;
-                 if (copy) {
-+                    len = state->head->extra_len - state->length;
-                     if (state->head != Z_NULL &&
--                        state->head->extra != Z_NULL) {
--                        len = state->head->extra_len - state->length;
-+                        state->head->extra != Z_NULL &&
-+                        len < state->head->extra_max) {
-                         zmemcpy(state->head->extra + len, next,
-                                 len + copy > state->head->extra_max ?
-                                 state->head->extra_max - len : copy);
-diff --git a/freetype-2.12.1/src/truetype/ttgxvar.c b/freetype-2.12.1/src/truetype/ttgxvar.c
-index a1b816b..eff7219 100644
---- a/src/truetype/ttgxvar.c
-+++ b/src/truetype/ttgxvar.c
-@@ -1141,7 +1141,7 @@
-                 delta == 1 ? "" : "s",
-                 vertical ? "VVAR" : "HVAR" ));
- 
--    *avalue = ADD_INT(*avalue, delta );
-+    *avalue = ADD_INT( *avalue, delta );
- 
-   Exit:
-     return error;
+-- 
+2.44.0.windows.1
+
