@@ -6,6 +6,7 @@
         "Version Number"        : "2.13.3",
         "Owner"                 : "zhangyifan39@huawei.com",
         "Upstream URL"          : "https://gitlab.freedesktop.org/freetype",
-        "Description"           : "FreeType is a freely available software library to render fonts."
+        "Description"           : "FreeType is a freely available software library to render fonts.",
+        "Dependencies"          : ["dlg", "zlib"]
     }
 ]
