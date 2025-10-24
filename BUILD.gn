@@ -133,8 +133,12 @@ if (defined(ohos_lite)) {
     deps = [ ":freetype_action" ]
     external_deps = [ "zlib:libz" ]
     defines = [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
-    external_deps += [ "libpng:libpng" ]
     defines += [ "FT_CONFIG_OPTION_USE_PNG" ]
+    if (is_arkui_x) {
+      deps += [ "//third_party/skia/m133/third_party/libpng" ]
+    } else {
+      external_deps += [ "libpng:libpng" ]
+    }
     part_name = "freetype"
     subsystem_name = "thirdparty"
   }
