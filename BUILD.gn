@@ -134,8 +134,14 @@ if (defined(ohos_lite)) {
     external_deps = [ "zlib:libz" ]
     defines = [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
     if (current_os == "ohos") {
-      external_deps += [ "libpng:libpng" ]
       defines += [ "FT_CONFIG_OPTION_USE_PNG" ]
+      external_deps += [ "libpng:libpng" ]
+    } else if (is_arkui_x) {
+      defines += [ "FT_CONFIG_OPTION_USE_PNG" ]
+      deps += [ "//third_party/skia/m133/third_party/libpng" ]
+    } else if (product_name == "ohos-sdk") {
+      defines += [ "FT_CONFIG_OPTION_USE_PNG" ]
+      external_deps += [ "libpng:libpng_static" ]
     }
     part_name = "freetype"
     subsystem_name = "thirdparty"
