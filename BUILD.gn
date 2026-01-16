@@ -109,6 +109,31 @@ if (defined(ohos_lite)) {
     defines = [ "FT_CONFIG_OPTION_USE_PNG" ]
 
     if (target_type == "static_library") {
+      visibility = [
+        ":*",
+        "//foundation/arkui/ui_ext_lite/ext/updater:libupdater_layout",
+        "//foundation/arkui/ui_ext_lite/tools/ide:graphic_lite",
+        "//foundation/arkui/ui_lite:ui",
+        "//foundation/arkui/ui_lite/ext/home_host:libhome_host_layout",
+        "//foundation/arkui/ui_lite/ext/ide:ui_ide",
+        "//foundation/arkui/ui_lite/ext/updater:libupdater_layout",
+        "//foundation/arkui/ui_lite/test/unittest/*",
+        "//foundation/graphic/graphic_3d/lume/LumeFont:lume_font_src",
+        "//foundation/graphic/graphic_2d/rosen/modules/2d_engine/ddgr:ddgr_src_set",
+        "//foundation/graphic/graphic_2d/rosen/modules/2d_engine/ddgr:libddgr",
+        "//foundation/graphic/graphic_2d/rosen/modules/2d_graphics:2d_graphics_source_ohos",
+        "//foundation/graphic/graphic_2d_ext/ddgr/test/fuzztest:fuzztest_deps_group",
+        "//foundation/graphic/graphic_2d_ext/ddgr/test/unittest:unittest_deps_group",
+        "//foundation/graphic/spatial_recon/spatial_text/SpatialText:libspatialtextplugin",
+        "//foundation/graphic/spatial_recon/spatial_text/test/api_unit_test:spatial_text_test",
+        "//vendor/huawei/foundation/graphic/graphic_wear/config:freetype_inner_kits",
+        "//vendor/huawei/base/update/updater_ext/test/unittest/ui_ext:ui_ext_unittest",
+        "//vendor/hisi/confidential/contexthub/src/framework/hisi/ui/third_party/*",
+        "//third_party/skia/m133:typeface_freetype",
+        "//third_party/skia/m133:typeface_freetype_tests",
+        "//out/*",
+      ]
+
       deps += [ "//build/lite/config/component/zlib:zlib_static" ]
       defines += [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
     }
@@ -127,6 +152,31 @@ if (defined(ohos_lite)) {
   }
 } else {
   ohos_static_library("freetype_static") {
+    visibility = [
+      ":*",
+      "//foundation/arkui/ui_ext_lite/ext/updater:libupdater_layout",
+      "//foundation/arkui/ui_ext_lite/tools/ide:graphic_lite",
+      "//foundation/arkui/ui_lite:ui",
+      "//foundation/arkui/ui_lite/ext/home_host:libhome_host_layout",
+      "//foundation/arkui/ui_lite/ext/ide:ui_ide",
+      "//foundation/arkui/ui_lite/ext/updater:libupdater_layout",
+      "//foundation/arkui/ui_lite/test/unittest/*",
+      "//foundation/graphic/graphic_3d/lume/LumeFont:lume_font_src",
+      "//foundation/graphic/graphic_2d/rosen/modules/2d_engine/ddgr:ddgr_src_set",
+      "//foundation/graphic/graphic_2d/rosen/modules/2d_engine/ddgr:libddgr",
+      "//foundation/graphic/graphic_2d/rosen/modules/2d_graphics:2d_graphics_source_ohos",
+      "//foundation/graphic/graphic_2d_ext/ddgr/test/fuzztest:fuzztest_deps_group",
+      "//foundation/graphic/graphic_2d_ext/ddgr/test/unittest:unittest_deps_group",
+      "//foundation/graphic/spatial_recon/spatial_text/SpatialText:libspatialtextplugin",
+      "//foundation/graphic/spatial_recon/spatial_text/test/api_unit_test:spatial_text_test",
+      "//vendor/huawei/foundation/graphic/graphic_wear/config:freetype_inner_kits",
+      "//vendor/huawei/base/update/updater_ext/test/unittest/ui_ext:ui_ext_unittest",
+      "//vendor/hisi/confidential/contexthub/src/framework/hisi/ui/third_party/*",
+      "//third_party/skia/m133:typeface_freetype",
+      "//third_party/skia/m133:typeface_freetype_tests",
+      "//out/*",
+    ]
+
     sources = get_target_outputs(":freetype_action")
     include_dirs = [ "${target_gen_dir}/freetype/src/base" ]
     public_configs = [ ":freetype_config" ]
