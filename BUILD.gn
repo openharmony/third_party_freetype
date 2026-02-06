@@ -167,6 +167,8 @@ if (defined(ohos_lite)) {
       "//foundation/graphic/graphic_2d/rosen/modules/2d_graphics:2d_graphics_source_ohos",
       "//foundation/graphic/graphic_2d_ext/ddgr/test/fuzztest:fuzztest_deps_group",
       "//foundation/graphic/graphic_2d_ext/ddgr/test/unittest:unittest_deps_group",
+      "//foundation/graphic/graphic_2d_ext/ddgr/tools/plabackengine:libplaybackengine",
+      "//foundation/graphic/graphic_2d_ext/ddgr/tools/plabackengine:playbackengine_debugger",
       "//foundation/graphic/spatial_recon/spatial_text/SpatialText:libspatialtextplugin",
       "//foundation/graphic/spatial_recon/spatial_text/test/api_unit_test:spatial_text_test",
       "//vendor/huawei/foundation/graphic/graphic_wear/config:freetype_inner_kits",
