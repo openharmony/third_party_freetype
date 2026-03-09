@@ -41,6 +41,7 @@ def move_file(src_path, dst_path):
         "backport-freetype-2.12.1-enable-funcs.patch",
         "CVE-2026-23865.patch",
         "backport-truetype-signed-integer-overflow.patch",
+        "backport-autofit-signed-integer-overflow.patch",
         "ftconfig.h"
     ]
     for file in files:
@@ -78,7 +79,8 @@ def do_patch(target_dir):
         "backport-freetype-2.10.1-debughook.patch",
         "backport-freetype-2.12.1-enable-funcs.patch",
         "CVE-2026-23865.patch",
-        "backport-truetype-signed-integer-overflow.patch"
+        "backport-truetype-signed-integer-overflow.patch",
+        "backport-autofit-signed-integer-overflow.patch"
     ]
 
     for patch in patch_file:
