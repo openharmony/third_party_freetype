@@ -30,7 +30,7 @@ def untar_file(tar_file_path, extract_path):
         return
 
 
-def move_file(src_path, dst_path):
+def move_file(src_path, dst_path, cfp_enable):
     files = [
         "backport-freetype-2.2.1-enable-valid.patch",
         "backport-freetype-2.3.0-enable-spr.patch",
@@ -44,6 +44,10 @@ def move_file(src_path, dst_path):
         "backport-autofit-signed-integer-overflow.patch",
         "ftconfig.h"
     ]
+
+    if cfp_enable:
+        files += [ "backport-freetype-add-cfp.patch" ]
+
     for file in files:
         src_file = os.path.join(src_path, file)
         dst_file = os.path.join(dst_path, file)
@@ -69,7 +73,7 @@ def apply_patch(patch_file, target_dir):
         return
 
 
-def do_patch(target_dir):
+def do_patch(target_dir, cfp_enable):
     patch_file = [
         "backport-freetype-2.2.1-enable-valid.patch",
         "backport-freetype-2.3.0-enable-spr.patch",
@@ -83,6 +87,9 @@ def do_patch(target_dir):
         "backport-autofit-signed-integer-overflow.patch"
     ]
 
+    if cfp_enable:
+        patch_file += [ "backport-freetype-add-cfp.patch" ]
+
     for patch in patch_file:
         apply_patch(patch, target_dir)
 
@@ -91,15 +98,17 @@ def main():
     freetype_path = argparse.ArgumentParser()
     freetype_path.add_argument('--gen-dir', help='generate path of log', required=True)
     freetype_path.add_argument('--source-dir', help='generate path of log', required=True)
+    freetype_path.add_argument('--cfp-enable', help='generate path of log', required=True)
     args = freetype_path.parse_args()
     tar_file_path = os.path.join(args.source_dir, "freetype-2.13.3.tar.xz")
     target_dir = os.path.join(args.gen_dir, "freetype")
     target_include_dir = os.path.join(target_dir, "include")
 
+    cfp_enable = args.cfp_enable.lower() == "true"
     untar_file(tar_file_path, target_dir)
-    move_file(args.source_dir, target_dir)
+    move_file(args.source_dir, target_dir, cfp_enable)
     move_include(args.source_dir, target_include_dir)
-    do_patch(target_dir)
+    do_patch(target_dir, cfp_enable)
     return 0
 
 if __name__ == '__main__':

@@ -1,0 +1,426 @@
+diff --git a/src/base/ftinit.c b/src/base/ftinit.c
+index 9a6c00e..97f8cea 100644
+--- a/src/base/ftinit.c
++++ b/src/base/ftinit.c
+@@ -4,7 +4,7 @@
+  *
+  *   FreeType initialization layer (body).
+  *
+- * Copyright (C) 1996-2024 by
++ * Copyright (C) 1996-2026 by
+  * David Turner, Robert Wilhelm, and Werner Lemberg.
+  *
+  * This file is part of the FreeType project, and may only be used,
+@@ -43,6 +43,9 @@
+ #include <freetype/internal/ftdebug.h>
+ #include <freetype/ftmodapi.h>
+ 
++#ifdef FT_CONFIG_OPTION_ENABLE_CFP
++#include "../..//src/cfp/cfp.h"
++#endif
+ 
+   /**************************************************************************
+    *
+@@ -82,6 +85,15 @@
+     FT_Error                       error;
+     const FT_Module_Class* const*  cur;
+ 
++#ifdef FT_CONFIG_OPTION_ENABLE_CFP
++FT_Bool res = CFP_Load_Plugin();
++const FT_Module_Class *module = (FT_Module_Class *)CFP_Load_Module();
++if (module != NULL) {
++    FT_Add_Module(library, module);
++} else {
++    FT_LOGE("Fail to load cfp module res={pubilc}%d", res);
++}
++#endif
+ 
+     /* GCC 4.6 warns the type difference:
+      *   FT_Module_Class** != const FT_Module_Class* const*
+diff --git a/src/cfp/cfp.c b/src/cfp/cfp.c
+new file mode 100755
+index 0000000..7b71d9a
+--- /dev/null
++++ b/src/cfp/cfp.c
+@@ -0,0 +1,120 @@
++/*
++ * Copyright (c) 2026 Huawei Device Co., Ltd.
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++#include "cfp.h"
++
++const char *CFP_PLUGIN_LIB_PATH = "/system/lib64/libcfp.z.so";
++const char *CFP_CREATE_PLUGIN = "CFP_Create_Plugin";
++
++void *g_handle = NULL;
++const CFP_Plugin *cfp_plugin = NULL;
++
++CFP_Create_Plugin_Func create_plugin_func = NULL;
++
++const FT_Module_Class *CFP_Load_Module(void)
++{
++    if (cfp_plugin != NULL) {
++        return cfp_plugin->load_module();
++    } else {
++        FT_LOGE("Fail to unsupported cfp plugin, Unable to load module");
++        return NULL;
++    }
++}
++
++FT_Bool CFP_Load_Plugin(void)
++{
++    if (g_handle != NULL) {
++        return 1;
++    }
++    g_handle = dlopen(CFP_PLUGIN_LIB_PATH, RTLD_LAZY);
++    if (g_handle == NULL) {
++        FT_LOGE("Fail to dlopen cfp plugin, g_handle is null");
++        return 0;
++    }
++
++    if (create_plugin_func != NULL) {
++        return 1;
++    }
++
++    create_plugin_func = (CFP_Create_Plugin_Func)dlsym(g_handle, CFP_CREATE_PLUGIN);
++    if (create_plugin_func == NULL) {
++        FT_LOGE("Fail to dlsym create plugin func ptr is null");
++        return 0;
++    }
++
++    cfp_plugin = create_plugin_func();
++    if (cfp_plugin != NULL) {
++        return 1;
++    } else {
++        FT_LOGE("Fail to create cfp plugin ptr is null");
++        return 0;
++    }
++}
++
++void CFP_Unload_Plugin(void)
++{
++    if (g_handle != NULL) {
++        dlclose(g_handle);
++        g_handle = NULL;
++        cfp_plugin->unload_plugin();
++        cfp_plugin = NULL;
++        create_plugin_func = NULL;
++    }
++}
++
++FT_Bool CFP_Load_Face(FT_Library library, FT_Stream stream, TT_Face face, FT_Int face_index,
++                      CFP_Get_Location_Func get_location)
++
++{
++    if (cfp_plugin != NULL) {
++        cfp_plugin->load_face(library, stream, face, face_index, get_location);
++        return 1;
++    } else {
++        FT_LOGE("Fail to unsupported cfp plugin, please disable the freetype_feature_cfp_enable feature");
++        return 0;
++    }
++}
++
++FT_Bool CFP_Unload_Face(FT_Face face)
++{
++    if (cfp_plugin != NULL) {
++        return cfp_plugin->unload_face(face);
++    } else {
++        FT_LOGE("Fail to unsupported cfp plugin, please disable the freetype_feature_cfp_enable feature");
++        return 0;
++    }
++}
++
++FT_Bool CFP_Loader_Init(FT_Library library, TT_LoaderRec *loader, TT_Size size, TT_GlyphSlot glyph, FT_UInt glyph_index,
++                        FT_Int32 load_flags)
++{
++    if (cfp_plugin != NULL) {
++        return cfp_plugin->loader_init(library, loader, size, glyph, glyph_index, load_flags);
++    } else {
++        FT_LOGE("Fail to unsupported cfp plugin, please disable the freetype_feature_cfp_enable feature");
++        return 0;
++    }
++}
++
++FT_Bool CFP_Load_Glyph(TT_Face face, FT_GlyphLoader gloader, TT_Loader loader, FT_UInt glyph_index,
++                       FT_Bool *opened_frame)
++{
++    if (cfp_plugin != NULL) {
++        return cfp_plugin->load_glyph(face, gloader, loader, glyph_index, opened_frame);
++    } else {
++        FT_LOGE("Fail to unsupported cfp plugin, please disable the freetype_feature_cfp_enable feature");
++        return 0;
++    }
++}
+ 
+diff --git a/src/cfp/cfp.h b/src/cfp/cfp.h
+new file mode 100755
+index 0000000..46c6afa
+--- /dev/null
++++ b/src/cfp/cfp.h
+@@ -0,0 +1,81 @@
++/*
++ * Copyright (c) 2026 Huawei Device Co., Ltd.
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++#ifndef CFP_PLUGIN_H_
++#define CFP_PLUGIN_H_
++
++#include <dlfcn.h>
++#include <freetype/internal/tttypes.h>
++#define LOG_TAG "FreeType"
++#include "../..//src/cfp/ftlog.h"
++#include "../..//src/truetype/ttobjs.h"
++
++FT_BEGIN_HEADER
++
++typedef const FT_Module_Class *(CFP_Load_Module_Func)(void);
++
++typedef FT_Bool (*CFP_Load_Plugin_Func)(void);
++
++typedef void (*CFP_Unload_Plugin_Func)(void);
++
++typedef FT_ULong (*CFP_Get_Location_Func)(TT_Face face, FT_UInt gindex, FT_UInt *asize);
++
++typedef FT_Bool (*CFP_Load_Face_Func)(FT_Library library, FT_Stream stream, TT_Face face, FT_Int face_index,
++                                      CFP_Get_Location_Func get_location);
++
++typedef FT_Bool (*CFP_Unload_Face_Func)(FT_Face face);
++
++typedef FT_Bool (*CFP_Loader_Lib_Init_Func)(FT_Library library, TT_LoaderRec *loader, TT_Size size, TT_GlyphSlot glyph,
++                                            FT_UInt glyph_index, FT_Int32 load_flags);
++
++typedef FT_Bool (*CFP_Load_Glyph_Func)(TT_Face face, FT_GlyphLoader gloader, TT_Loader loader, FT_UInt glyph_index,
++                                       FT_Bool *opened_frame);
++
++typedef struct {
++    const char *plugin_name;
++    const char *version;
++    CFP_Load_Module_Func *load_module;
++    CFP_Load_Plugin_Func load_plugin;
++    CFP_Unload_Plugin_Func unload_plugin;
++    CFP_Load_Face_Func load_face;
++    CFP_Unload_Face_Func unload_face;
++    CFP_Loader_Lib_Init_Func loader_init;
++    CFP_Load_Glyph_Func load_glyph;
++} CFP_Plugin;
++
++typedef const CFP_Plugin *(*CFP_Create_Plugin_Func)(void);
++
++const FT_Module_Class *CFP_Load_Module(void);
++
++FT_Bool CFP_Load_Plugin(void);
++
++void CFP_Unload_Plugin(void);
++
++FT_Bool CFP_Load_Face(FT_Library library, FT_Stream stream, TT_Face face, FT_Int face_index,
++                      CFP_Get_Location_Func get_location);
++
++FT_Bool CFP_Unload_Face(FT_Face face);
++
++FT_Bool CFP_Loader_Init(FT_Library library, TT_LoaderRec *loader, TT_Size size, TT_GlyphSlot glyph, FT_UInt glyph_index,
++                        FT_Int32 load_flags);
++
++FT_Bool CFP_Load_Glyph(TT_Face face, FT_GlyphLoader gloader, TT_Loader loader, FT_UInt glyph_index,
++                       FT_Bool *opened_frame);
++
++extern const char *CFP_CREATE_PLUGIN;
++
++FT_END_HEADER
++
++#endif /* CFP_PLUGIN_H_ */
+ 
+diff --git a/src/cfp/ftlog.h b/src/cfp/ftlog.h
+new file mode 100755
+index 0000000..50ac21a
+--- /dev/null
++++ b/src/cfp/ftlog.h
+@@ -0,0 +1,39 @@
++/*
++ * Copyright (c) 2026 Huawei Device Co., Ltd.
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ * http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++#ifndef FT_LOG_H_
++#define FT_LOG_H_
++
++#include <hilog/log.h>
++
++#undef LOG_DOMAIN
++#define LOG_DOMAIN 0xD001406
++
++#ifndef LOG_TAG
++#define LOG_TAG "FreeType"
++#endif
++
++#define FILE_NAME (__builtin_strrchr(__FILE__, '/') ? __builtin_strrchr(__FILE__, '/') + 1 : __FILE__)
++
++#define FT_LOGD(fmt, ...) \
++    HILOG_DEBUG(LOG_CORE, "[%{public}s %{public}s:%{public}d] " fmt, FILE_NAME, __func__, __LINE__, ##__VA_ARGS__)
++#define FT_LOGI(fmt, ...) \
++    HILOG_INFO(LOG_CORE, "[%{public}s %{public}s:%{public}d] " fmt, FILE_NAME, __func__, __LINE__, ##__VA_ARGS__)
++#define FT_LOGW(fmt, ...) \
++    HILOG_WARN(LOG_CORE, "[%{public}s %{public}s:%{public}d] " fmt, FILE_NAME, __func__, __LINE__, ##__VA_ARGS__)
++#define FT_LOGE(fmt, ...) \
++    HILOG_ERROR(LOG_CORE, "[%{public}s %{public}s:%{public}d] " fmt, FILE_NAME, __func__, __LINE__, ##__VA_ARGS__)
++
++#endif /* FT_LOG_H_ */
+ 
+diff --git a/src/truetype/ttgload.c b/src/truetype/ttgload.c
+index b656ccf..61f1b7d 100644
+--- a/src/truetype/ttgload.c
++++ b/src/truetype/ttgload.c
+@@ -4,7 +4,7 @@
+  *
+  *   TrueType Glyph Loader (body).
+  *
+- * Copyright (C) 1996-2024 by
++ * Copyright (C) 1996-2026 by
+  * David Turner, Robert Wilhelm, and Werner Lemberg.
+  *
+  * This file is part of the FreeType project, and may only be used,
+@@ -36,6 +36,9 @@
+ 
+ #include "tterrors.h"
+ 
++#ifdef FT_CONFIG_OPTION_ENABLE_CFP
++#include "../..//src/cfp/cfp.h"
++#endif
+ 
+   /**************************************************************************
+    *
+@@ -1666,6 +1669,27 @@
+       FT_GlyphLoader_Add( gloader );
+     }
+ 
++#ifdef FT_CONFIG_OPTION_ENABLE_CFP
++    /* load cfp glyph, currently the same with load simple glyph */
++    else if (loader->n_contours == -2)
++    {
++        error = face->read_simple_glyph(loader);
++        if (error) {
++            goto Exit;
++        }
++
++        /* all data have been read */
++        face->forget_glyph_frame(loader);
++        opened_frame = 0;
++
++        error = FT_Err_Ok;
++        if (error)
++            goto Exit;
++
++        FT_GlyphLoader_Add(gloader);
++    }
++#endif
++
+     /***********************************************************************/
+     /***********************************************************************/
+     /***********************************************************************/
+@@ -1942,6 +1966,23 @@
+         gloader->base.outline.flags |= FT_OUTLINE_OVERLAP;
+     }
+ 
++#ifdef FT_CONFIG_OPTION_ENABLE_CFP
++      /* cfp */
++      else if (loader->n_contours == -2)
++      {
++          if (!CFP_Load_Glyph(face, gloader, loader, glyph_index, &opened_frame)) {
++              error = FT_Err_Invalid_Handle;
++              goto Exit;
++          }
++      }
++      else
++      {
++          /* invalid composite count (negative but not -1) */
++          error = TT_Err_Invalid_Outline;
++          goto Exit;
++      }
++#endif
++
+     /***********************************************************************/
+     /***********************************************************************/
+     /***********************************************************************/
+@@ -2646,6 +2687,12 @@
+     glyph->num_subglyphs = 0;
+     glyph->outline.flags = 0;
+ 
++#ifdef FT_CONFIG_OPTION_ENABLE_CFP
++    /* try to init cfp loader extension*/
++    if (!CFP_Loader_Init(glyph->library, &loader, (TT_Size)size, glyph, load_flags, FALSE))
++        return FT_Err_Invalid_Outline;
++#endif
++
+     /* main loading loop */
+     error = load_truetype_glyph( &loader, glyph_index, 0, FALSE );
+     if ( !error )
+diff --git a/src/truetype/ttobjs.c b/src/truetype/ttobjs.c
+index d0ac318..36c0f91 100644
+--- a/src/truetype/ttobjs.c
++++ b/src/truetype/ttobjs.c
+@@ -4,7 +4,7 @@
+  *
+  *   Objects manager (body).
+  *
+- * Copyright (C) 1996-2024 by
++ * Copyright (C) 1996-2026 by
+  * David Turner, Robert Wilhelm, and Werner Lemberg.
+  *
+  * This file is part of the FreeType project, and may only be used,
+@@ -33,6 +33,10 @@
+ 
+ #ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
+ #include "ttgxvar.h"
++#endif
++
++#ifdef FT_CONFIG_OPTION_ENABLE_CFP
++#include "../..//src/cfp/cfp.h"
+ #endif
+ 
+   /**************************************************************************
+@@ -799,6 +803,14 @@
+     /* initialize standard glyph loading routines */
+     TT_Init_Glyph_Loading( face );
+ 
++#ifdef FT_CONFIG_OPTION_ENABLE_CFP
++    /* try to load cfp extension */
++    {
++      if (!CFP_Load_Face(library, stream, face, face_index, (CFP_Get_Location_Func)tt_face_get_location))
++        error = FT_Err_Unknown_File_Format;
++    }
++#endif
++
+   Exit:
+     return error;
