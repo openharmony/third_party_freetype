@@ -83,7 +83,7 @@ action("freetype_action") {
 
   if (freetype_feature_cfp_enable) {
     outputs += [ "${target_gen_dir}/freetype/src/cfp/cfp.c" ]
-    inputs += [ "backport-freetype-add-cfp.patch" ]
+    inputs += [ "backport-freetype-enable-cfp.patch" ]
   }
 
   freetype_path = rebase_path("${target_gen_dir}", root_build_dir)
@@ -187,6 +187,7 @@ if (defined(ohos_lite)) {
       "//third_party/skia/m133:typeface_freetype",
       "//third_party/skia/m133:typeface_freetype_tests",
       "//out/*",
+      "//vendor/thirdparty/*",
     ]
 
     sources = get_target_outputs(":freetype_action")

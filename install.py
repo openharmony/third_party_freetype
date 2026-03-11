@@ -46,7 +46,7 @@ def move_file(src_path, dst_path, cfp_enable):
     ]
 
     if cfp_enable:
-        files += [ "backport-freetype-add-cfp.patch" ]
+        files += [ "backport-freetype-enable-cfp.patch" ]
 
     for file in files:
         src_file = os.path.join(src_path, file)
@@ -88,7 +88,7 @@ def do_patch(target_dir, cfp_enable):
     ]
 
     if cfp_enable:
-        patch_file += [ "backport-freetype-add-cfp.patch" ]
+        patch_file += [ "backport-freetype-enable-cfp.patch" ]
 
     for patch in patch_file:
         apply_patch(patch, target_dir)
