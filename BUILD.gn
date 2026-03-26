@@ -9,6 +9,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import("//third_party/freetype/freetype.gni")
+
 if (defined(ohos_lite)) {
   import("//build/lite/config/component/lite_component.gni")
 } else {
@@ -78,6 +80,12 @@ action("freetype_action") {
     "backport-freetype-2.6.5-libtool.patch",
     "backport-freetype-2.8-multilib.patch"
   ]
+
+  if (freetype_feature_cfp_enable) {
+    outputs += [ "${target_gen_dir}/freetype/src/cfp/cfp.c" ]
+    inputs += [ "backport-freetype-enable-cfp.patch" ]
+  }
+
   freetype_path = rebase_path("${target_gen_dir}", root_build_dir)
   freetype_source_path = rebase_path("//third_party/freetype", root_build_dir)
   args = [
@@ -85,6 +93,8 @@ action("freetype_action") {
     "$freetype_path",
     "--source-dir",
     "$freetype_source_path",
+    "--cfp-enable",
+    "$freetype_feature_cfp_enable"
   ]
 }
 
@@ -177,6 +187,7 @@ if (defined(ohos_lite)) {
       "//third_party/skia/m133:typeface_freetype",
       "//third_party/skia/m133:typeface_freetype_tests",
       "//out/*",
+      "//vendor/thirdparty/*",
     ]
 
     sources = get_target_outputs(":freetype_action")
@@ -185,6 +196,10 @@ if (defined(ohos_lite)) {
     deps = [ ":freetype_action" ]
     external_deps = [ "zlib:libz" ]
     defines = [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
+    if (freetype_feature_cfp_enable) {
+      defines += [ "FT_CONFIG_OPTION_ENABLE_CFP" ]
+      external_deps += [ "hilog:libhilog" ]
+    }
     if (current_os == "ohos") {
       defines += [ "FT_CONFIG_OPTION_USE_PNG" ]
       external_deps += [ "libpng:libpng" ]
