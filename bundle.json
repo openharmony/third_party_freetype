@@ -24,8 +24,7 @@
         "deps": {
             "components": [
                 "libpng",
-                "zlib",
-                "hilog"
+                "zlib"
             ],
             "third_party": [
             ]

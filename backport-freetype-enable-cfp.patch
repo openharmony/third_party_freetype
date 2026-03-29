@@ -1,5 +1,5 @@
 diff --git a/src/base/ftinit.c b/src/base/ftinit.c
-index 9a6c00e..767c318 100644
+index 9a6c00e..58cd267 100644
 --- a/src/base/ftinit.c
 +++ b/src/base/ftinit.c
 @@ -4,7 +4,7 @@
@@ -39,12 +39,12 @@ index 9a6c00e..767c318 100644
 +    if (cfp_modlue == NULL) {
 +      FT_Bool res = CFP_Load_Plugin();
 +      if (!res) {
-+        FT_LOGE("Fail to load cfp plugin");
++        FT_TRACE1(( "Fail to load cfp plugin\n" ));
 +      }
 +
 +      cfp_modlue = (FT_Module_Class *)CFP_Load_Module();
 +      if (cfp_modlue == NULL) {
-+        FT_LOGE("Fail to load cfp module class");
++        FT_TRACE1(( "Fail to load cfp module class\n" ));
 +      }
 +    }
 +
@@ -55,10 +55,10 @@ index 9a6c00e..767c318 100644
       *   FT_Module_Class** != const FT_Module_Class* const*
 diff --git a/src/cfp/cfp.c b/src/cfp/cfp.c
 new file mode 100755
-index 0000000..04a65a2
+index 0000000..9e95620
 --- /dev/null
 +++ b/src/cfp/cfp.c
-@@ -0,0 +1,92 @@
+@@ -0,0 +1,91 @@
 +/*
 + * Copyright (c) 2026 Huawei Device Co., Ltd.
 + * Licensed under the Apache License, Version 2.0 (the "License");
@@ -91,14 +91,14 @@ index 0000000..04a65a2
 +    if (g_handle == NULL) {
 +        g_handle = dlopen(CFP_PLUGIN_LIB_PATH, RTLD_LAZY);
 +        if (!g_handle) {
-+            FT_LOGE("Fail to dlopen cfp plugin %{public}s", dlerror());
++            FT_TRACE1(( "Fail to dlopen cfp plugin %s\n", dlerror() ));
 +            return 0;
 +        }
 +    }
 +
 +    create_plugin_func = (CFP_Create_Plugin_Func)dlsym(g_handle, CFP_CREATE_PLUGIN);
 +    if (create_plugin_func == NULL) {
-+        FT_LOGE("Fail to dlsym create plugin func %{public}s", dlerror());
++        FT_TRACE1(( "Fail to dlsym create plugin func %s\n", dlerror() ));
 +        return 0;
 +    }
 +
@@ -106,8 +106,7 @@ index 0000000..04a65a2
 +    if (cfp != NULL) {
 +        return 1;
 +    }
-+
-+    FT_LOGE("Fail to unsupported cfp plugin, please disable the freetype_feature_cfp_enable feature");
++    FT_TRACE1(( "Fail to unsupported cfp plugin, please disable the freetype_feature_cfp_enable feature" ));
 +    return 0;
 +}
 +
@@ -117,7 +116,7 @@ index 0000000..04a65a2
 +        return cfp->load_module();
 +    }
 +
-+    FT_LOGE("Fail to load plugin");
++    FT_TRACE1(( "Fail to load plugin" ));
 +    return NULL;
 +}
 +
@@ -154,7 +153,7 @@ index 0000000..04a65a2
 \ No newline at end of file
 diff --git a/src/cfp/cfp.h b/src/cfp/cfp.h
 new file mode 100755
-index 0000000..0d965c0
+index 0000000..4fd0f9e
 --- /dev/null
 +++ b/src/cfp/cfp.h
 @@ -0,0 +1,69 @@
@@ -177,9 +176,9 @@ index 0000000..0d965c0
 +#define CFP_H_
 +
 +#include <dlfcn.h>
++#include <freetype/internal/ftdebug.h>
 +#include <freetype/internal/tttypes.h>
 +
-+#include "../..//src/cfp/ftlog.h"
 +#include "../..//src/truetype/ttobjs.h"
 +
 +FT_BEGIN_HEADER
@@ -227,53 +226,6 @@ index 0000000..0d965c0
 +FT_END_HEADER
 +
 +#endif /* CFP_H_ */
-\ No newline at end of file
-diff --git a/src/cfp/ftlog.h b/src/cfp/ftlog.h
-new file mode 100755
-index 0000000..1779e72
---- /dev/null
-+++ b/src/cfp/ftlog.h
-@@ -0,0 +1,40 @@
-+/*
-+ * Copyright (c) 2026 Huawei Device Co., Ltd.
-+ * Licensed under the Apache License, Version 2.0 (the "License");
-+ * you may not use this file except in compliance with the License.
-+ * You may obtain a copy of the License at
-+ *
-+ * http://www.apache.org/licenses/LICENSE-2.0
-+ *
-+ * Unless required by applicable law or agreed to in writing, software
-+ * distributed under the License is distributed on an "AS IS" BASIS,
-+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+ * See the License for the specific language governing permissions and
-+ * limitations under the License.
-+ */
-+
-+#ifndef FT_LOG_H_
-+#define FT_LOG_H_
-+
-+#include <hilog/log.h>
-+
-+#ifndef LOG_DOMAIN
-+#define LOG_DOMAIN 0xD001408
-+#endif
-+
-+#ifndef LOG_TAG
-+#define LOG_TAG "FreeType"
-+#endif
-+
-+#define FILE_NAME (__builtin_strrchr(__FILE__, '/') ? __builtin_strrchr(__FILE__, '/') + 1 : __FILE__)
-+
-+#define FT_LOGD(fmt, ...) \
-+    HILOG_DEBUG(LOG_CORE, "[%{public}s %{public}s:%{public}d] " fmt, FILE_NAME, __func__, __LINE__, ##__VA_ARGS__)
-+#define FT_LOGI(fmt, ...) \
-+    HILOG_INFO(LOG_CORE, "[%{public}s %{public}s:%{public}d] " fmt, FILE_NAME, __func__, __LINE__, ##__VA_ARGS__)
-+#define FT_LOGW(fmt, ...) \
-+    HILOG_WARN(LOG_CORE, "[%{public}s %{public}s:%{public}d] " fmt, FILE_NAME, __func__, __LINE__, ##__VA_ARGS__)
-+#define FT_LOGE(fmt, ...) \
-+    HILOG_ERROR(LOG_CORE, "[%{public}s %{public}s:%{public}d] " fmt, FILE_NAME, __func__, __LINE__, ##__VA_ARGS__)
-+
-+#endif /* FT_LOG_H_ */
 \ No newline at end of file
 diff --git a/src/truetype/ttgload.c b/src/truetype/ttgload.c
 index b656ccf..d68fc38 100644
