@@ -93,9 +93,14 @@ action("freetype_action") {
     "$freetype_path",
     "--source-dir",
     "$freetype_source_path",
-    "--cfp-enable",
-    "$freetype_feature_cfp_enable"
   ]
+
+  if (freetype_feature_cfp_enable) {
+    args += [
+      "--cfp-enable",
+      "$freetype_feature_cfp_enable"
+    ]
+  }
 }
 
 if (defined(ohos_lite)) {
@@ -187,7 +192,6 @@ if (defined(ohos_lite)) {
       "//third_party/skia/m133:typeface_freetype",
       "//third_party/skia/m133:typeface_freetype_tests",
       "//out/*",
-      "//vendor/thirdparty/*",
     ]
 
     sources = get_target_outputs(":freetype_action")
@@ -197,8 +201,8 @@ if (defined(ohos_lite)) {
     external_deps = [ "zlib:libz" ]
     defines = [ "FT_CONFIG_OPTION_SYSTEM_ZLIB" ]
     if (freetype_feature_cfp_enable) {
+      visibility += [ "//vendor/thirdparty/*" ]
       defines += [ "FT_CONFIG_OPTION_ENABLE_CFP" ]
-      external_deps += [ "hilog:libhilog" ]
     }
     if (current_os == "ohos") {
       defines += [ "FT_CONFIG_OPTION_USE_PNG" ]

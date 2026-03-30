@@ -98,13 +98,13 @@ def main():
     freetype_path = argparse.ArgumentParser()
     freetype_path.add_argument('--gen-dir', help='generate path of log', required=True)
     freetype_path.add_argument('--source-dir', help='generate path of log', required=True)
-    freetype_path.add_argument('--cfp-enable', help='generate path of log', required=True)
+    freetype_path.add_argument('--cfp-enable', help='generate path of log')
     args = freetype_path.parse_args()
     tar_file_path = os.path.join(args.source_dir, "freetype-2.13.3.tar.xz")
     target_dir = os.path.join(args.gen_dir, "freetype")
     target_include_dir = os.path.join(target_dir, "include")
 
-    cfp_enable = args.cfp_enable.lower() == "true"
+    cfp_enable = (args.cfp_enable is not None and args.cfp_enable.lower() == "true")
     untar_file(tar_file_path, target_dir)
     move_file(args.source_dir, target_dir, cfp_enable)
     move_include(args.source_dir, target_include_dir)
