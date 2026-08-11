@@ -214,6 +214,5 @@ if (defined(ohos_lite)) {
     }
     part_name = "freetype"
     subsystem_name = "thirdparty"
-    branch_protector_ret = "pac_ret"
   }
 }
