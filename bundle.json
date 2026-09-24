@@ -40,6 +40,15 @@
                       ],
                       "header_base": "//third_party/freetype"
                     }
+                },
+                {
+                    "name": "//third_party/freetype:freetype_static_open_cfi",
+                    "header": {
+                      "header_files": [
+                        "ftconfig.h"
+                      ],
+                      "header_base": "//third_party/freetype"
+                    }
                 }
             ],
             "test": []
